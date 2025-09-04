@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Conversor y Operaciones (Bin/Oct/Dec/Hex)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Fondo dinámico -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <span class="logo" aria-hidden="true">◎</span>
+        <h1 class="brand">Conversor & Operaciones</h1>
+      </div>
+      
+    </div>
+  </header>
+
+  <main class="container">
+    <p class="lead">
+      Convierte y opera con números en bases <strong>2</strong>, <strong>8</strong>, <strong>10</strong> y <strong>16</strong>.
+      Soporta signos ± y (opcionalmente) prefijos de entrada <code>0b</code>, <code>0o</code>, <code>0x</code>.
+    </p>
+
+    <nav class="tabs" role="tablist" aria-label="Modos">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" id="tab1-btn">1) Dec → Bin/Oct/Hex</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" id="tab2-btn">2) Bin/Oct/Hex → Dec</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" id="tab3-btn">3–5) Suma / Resta / Mult</button>
+    </nav>
+
+    <!-- TAB 1 -->
+    <section id="tab1" class="card enter-fade" role="tabpanel" aria-labelledby="tab1-btn">
+      <div class="grid">
+        <div class="field">
+          <label for="decIn">Número decimal</label>
+          <input id="decIn" type="text" inputmode="numeric" placeholder="-12345678901234567890" autocomplete="off" />
+          <small class="hint">Solo dígitos y signo ±</small>
+        </div>
+        <div class="field">
+          <label for="baseOut1">Convertir a base</label>
+          <select id="baseOut1">
+            <option value="2">2 (binario)</option>
+            <option value="8">8 (octal)</option>
+            <option value="16">16 (hexadecimal)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="btnConv1">Convertir</button>
+        <button class="btn ghost" id="btnClr1">Limpiar</button>
+      </div>
+
+      <output id="out1" class="out" aria-live="polite"></output>
+    </section>
+
+    <!-- TAB 2 -->
+    <section id="tab2" class="card enter-fade" role="tabpanel" aria-labelledby="tab2-btn" hidden>
+      <div class="grid">
+        <div class="field">
+          <label for="numIn2">Número a convertir</label>
+          <input id="numIn2" type="text" placeholder="0b1011, FF, -0o77, +7F" autocomplete="off" />
+          <small class="hint">Si no incluyes prefijo, se usa la base seleccionada.</small>
+        </div>
+        <div class="field">
+          <label for="baseIn2">Base del número</label>
+          <select id="baseIn2">
+            <option value="2">2 (binario)</option>
+            <option value="8">8 (octal)</option>
+            <option value="10">10 (decimal)</option>
+            <option value="16">16 (hexadecimal)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="btnConv2">A decimal</button>
+        <button class="btn ghost" id="btnClr2">Limpiar</button>
+      </div>
+
+      <output id="out2" class="out" aria-live="polite"></output>
+    </section>
+
+    <!-- TAB 3 -->
+    <section id="tab3" class="card enter-fade" role="tabpanel" aria-labelledby="tab3-btn" hidden>
+      <div class="grid grid-3">
+        <div class="field">
+          <label for="aIn">Primer número</label>
+          <input id="aIn" type="text" placeholder="-0xFF, 1010, 77" autocomplete="off" />
+          <label class="sub">Base</label>
+          <select id="aBase">
+            <option value="2">2</option>
+            <option value="8">8</option>
+            <option value="10" selected>10</option>
+            <option value="16">16</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="bIn">Segundo número</label>
+          <input id="bIn" type="text" placeholder="0b11, +7F, 42" autocomplete="off" />
+          <label class="sub">Base</label>
+          <select id="bBase">
+            <option value="2">2</option>
+            <option value="8">8</option>
+            <option value="10" selected>10</option>
+            <option value="16">16</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="opSel">Operación</label>
+          <select id="opSel">
+            <option value="add">Suma</option>
+            <option value="sub">Resta</option>
+            <option value="mul">Multiplicación</option>
+          </select>
+          <label class="sub" for="resBase">Ver resultado en base</label>
+          <select id="resBase">
+            <option value="2">2</option>
+            <option value="8">8</option>
+            <option value="10" selected>10</option>
+            <option value="16">16</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="btnOp">Calcular</button>
+        <button class="btn ghost" id="btnClr3">Limpiar</button>
+      </div>
+
+      <output id="out3" class="out mono" aria-live="polite"></output>
+    </section>
+
+    <p class="tip">
+      Tip: puedes escribir <code>0b</code>, <code>0o</code> o <code>0x</code> (con o sin signo) y el parser lo detecta, pero la salida no usa prefijos.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Hecho por <span aria-hidden="true"> </span> Moron Morales Diego.</small>
+    </div>
+  </footer>
+
+  
+
+  <script src="app.js"></script>
+</body>
+</html>
